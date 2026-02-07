@@ -9,9 +9,10 @@ export default function AdminDashboard() {
   
   useEffect(() => {
     const fetchLeads = async () => {
-      const response = await fetch("/api/leads");
-      const leads = await response.json();
-      setTotalLeads(leads.length);
+      const response = await fetch("/api/leads?pageSize=1000"); // Fetch a large sample or all for dashboard stats
+      const data = await response.json();
+      const leads = data.leads || [];
+      setTotalLeads(data.pagination?.totalCount || leads.length);
       setTotalResponses(leads.filter((lead: any) => lead.responses.length > 0).length);
     };
     fetchLeads();

@@ -2,19 +2,48 @@ import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
 export async function GET(request: Request) {
-  const leads = await prisma.lead.findMany({
-    include: {
-      responses: true,
-    },
-    orderBy: {
-      createdAt: "desc",
+  const { searchParams } = new URL(request.url);
+  const page = parseInt(searchParams.get("page") || "1");
+  const pageSize = parseInt(searchParams.get("pageSize") || "10");
+  const search = searchParams.get("search") || "";
+
+  const skip = (page - 1) * pageSize;
+
+  const where = search
+    ? {
+        OR: [
+          { name: { contains: search, mode: "insensitive" as const } },
+          { email: { contains: search, mode: "insensitive" as const } },
+          { phone: { contains: search, mode: "insensitive" as const } },
+        ],
+      }
+    : {};
+
+  const [leads, totalCount] = await Promise.all([
+    prisma.lead.findMany({
+      where,
+      include: {
+        responses: true,
+      },
+      orderBy: {
+        createdAt: "desc",
+      },
+      skip,
+      take: pageSize,
+    }),
+    prisma.lead.count({ where }),
+  ]);
+
+  return NextResponse.json({
+    leads,
+    pagination: {
+      totalCount,
+      totalPages: Math.ceil(totalCount / pageSize),
+      currentPage: page,
+      pageSize,
     },
   });
-
-  return NextResponse.json(leads);
 }
-
-
 
 export async function POST(request: Request) {
   try {

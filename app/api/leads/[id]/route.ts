@@ -34,3 +34,22 @@ export async function GET(
     );
   }
 }
+
+export async function DELETE(
+  request: Request,
+  { params }: { params: { id: string } },
+) {
+  try {
+    await prisma.lead.delete({
+      where: { id: params.id },
+    });
+
+    return NextResponse.json({ message: "Lead deleted successfully" });
+  } catch (error) {
+    console.error("Error deleting lead:", error);
+    return NextResponse.json(
+      { error: "Failed to delete lead" },
+      { status: 500 },
+    );
+  }
+}
