@@ -1,11 +1,21 @@
-import prisma  from "@/lib/prisma";
+// import prisma  from "@/lib/prisma";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, ClipboardList, CheckCircle } from "lucide-react";
+import { useEffect, useState } from "react";
 
-export default async function AdminDashboard() {
-  const totalLeads = await prisma.lead.count();
-  const totalResponses = await prisma.quizResponse.count();
+export default function AdminDashboard() {
+  const [totalLeads, setTotalLeads] = useState(0);
+  const [totalResponses, setTotalResponses] = useState(0);
   
+  useEffect(() => {
+    const fetchLeads = async () => {
+      const response = await fetch("/api/leads");
+      const leads = await response.json();
+      setTotalLeads(leads.length);
+      setTotalResponses(leads.filter((lead: any) => lead.responses.length > 0).length);
+    };
+    fetchLeads();
+  }, []);
   // Calculate completion rate
   const completionRate = totalLeads > 0 ? (totalResponses / totalLeads) * 100 : 0;
 
