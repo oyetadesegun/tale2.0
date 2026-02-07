@@ -1,5 +1,7 @@
+"use client";
+
 import Link from "next/link";
-import prisma from "@/lib/prisma";
+
 import {
   Table,
   TableBody,
@@ -12,16 +14,19 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Eye } from "lucide-react";
+import { useEffect, useState } from "react";
 
-export default async function AdminLeads() {
-  const leads = await prisma.lead.findMany({
-    include: {
-      responses: true,
-    },
-    orderBy: {
-      createdAt: "desc",
-    },
-  });
+export default function AdminLeads() {
+  const [leads, setLeads] = useState([]);
+
+  useEffect(() => {
+    const fetchLeads = async () => {
+      const response = await fetch("/api/leads");
+      const leads = await response.json();
+      setLeads(leads);
+    };
+    fetchLeads();
+  }, []);
 
   return (
     <div className="space-y-6">

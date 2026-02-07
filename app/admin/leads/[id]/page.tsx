@@ -1,30 +1,52 @@
-import prisma from "@/lib/prisma";
+"use client";
 import { notFound } from "next/navigation";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, User, Mail, Phone, MapPin, Heart, ClipboardCheck } from "lucide-react";
 import Link from "next/link";
+import { useEffect, useState } from "react";
 
-export default async function LeadDetailPage({
+interface Lead {
+  id: string;
+  name: string;
+  email: string;
+  phone: string;
+  recipientName: string;
+  recipientLocation: string;
+  relationshipType: string;
+  createdAt: string;
+  responses: {
+    id: string;
+    results: string;
+    answers: {
+      selectedStyles: any;
+      freeText: any;
+      id: string;
+      question: {
+        id: string;
+        question: string;
+        order: number;
+      };
+      // score: number;
+    }[];
+  }[];
+}
+
+export default function LeadDetailPage({
   params,
 }: {
   params: { id: string };
 }) {
-  const lead = await prisma.lead.findUnique({
-    where: { id: params.id },
-    include: {
-      responses: {
-        include: {
-          answers: {
-            include: {
-              question: true,
-            },
-          },
-        },
-      },
-    },
-  });
+  const [lead, setLead] = useState<Lead | null>(null);
+  useEffect(() => {
+    const fetchLead = async () => {
+      const response = await fetch(`/api/leads/${params.id}`);
+      const lead = await response.json();
+      setLead(lead);
+    };
+    fetchLead();
+  }, []);
 
   if (!lead) {
     notFound();
@@ -141,7 +163,7 @@ export default async function LeadDetailPage({
                           </p>
                           <div className="flex flex-wrap gap-1 mt-2">
                             {answer.selectedStyles ? (
-                              answer.selectedStyles.split(",").map((s) => (
+                              answer.selectedStyles.split(",").map((s : any) => (
                                 <Badge key={s} variant="outline" className="text-[10px] bg-secondary/30">
                                   {s}
                                 </Badge>

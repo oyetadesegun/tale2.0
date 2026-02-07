@@ -1,6 +1,21 @@
 import { NextResponse } from "next/server";
 import prisma from "@/lib/prisma";
 
+export async function GET(request: Request) {
+  const leads = await prisma.lead.findMany({
+    include: {
+      responses: true,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+
+  return NextResponse.json(leads);
+}
+
+
+
 export async function POST(request: Request) {
   try {
     const body = await request.json();
