@@ -1,4 +1,4 @@
-// import prisma  from "@/lib/prisma";
+"use client"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Users, ClipboardList, CheckCircle } from "lucide-react";
 import { useEffect, useState } from "react";
