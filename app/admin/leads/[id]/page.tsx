@@ -39,16 +39,40 @@ export default function LeadDetailPage({
   params: { id: string };
 }) {
   const [lead, setLead] = useState<Lead | null>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
+
   useEffect(() => {
     const fetchLead = async () => {
-      const response = await fetch(`/api/leads/${params.id}`);
-      const lead = await response.json();
-      setLead(lead);
+      try {
+        const response = await fetch(`/api/leads/${params.id}`);
+        if (!response.ok) {
+          if (response.status === 404) {
+            setError(true);
+          }
+          throw new Error("Failed to fetch lead");
+        }
+        const data = await response.json();
+        setLead(data);
+      } catch (err) {
+        console.error(err);
+        setError(true);
+      } finally {
+        setLoading(false);
+      }
     };
     fetchLead();
-  }, []);
+  }, [params.id]);
 
-  if (!lead) {
+  if (loading) {
+    return (
+      <div className="flex items-center justify-center min-h-[400px]">
+        <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary"></div>
+      </div>
+    );
+  }
+
+  if (error || !lead) {
     notFound();
   }
 
