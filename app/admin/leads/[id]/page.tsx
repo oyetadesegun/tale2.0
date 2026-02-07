@@ -5,7 +5,7 @@ import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { ArrowLeft, User, Mail, Phone, MapPin, Heart, ClipboardCheck } from "lucide-react";
 import Link from "next/link";
-import { useEffect, useState } from "react";
+import { useEffect, useState, use as useReact } from "react";
 
 interface Lead {
   id: string;
@@ -36,8 +36,9 @@ interface Lead {
 export default function LeadDetailPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = useReact(params);
   const [lead, setLead] = useState<Lead | null>(null);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
@@ -45,7 +46,7 @@ export default function LeadDetailPage({
   useEffect(() => {
     const fetchLead = async () => {
       try {
-        const response = await fetch(`/api/leads/${params.id}`);
+        const response = await fetch(`/api/leads/${id}`);
         if (!response.ok) {
           if (response.status === 404) {
             setError(true);
@@ -62,7 +63,7 @@ export default function LeadDetailPage({
       }
     };
     fetchLead();
-  }, [params.id]);
+  }, [id]);
 
   if (loading) {
     return (

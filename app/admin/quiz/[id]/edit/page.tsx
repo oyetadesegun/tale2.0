@@ -8,10 +8,11 @@ import Link from "next/link";
 export default async function EditQuestionPage({
   params,
 }: {
-  params: { id: string };
+  params: Promise<{ id: string }>;
 }) {
+  const { id } = await params;
   const question = await prisma.quizQuestion.findUnique({
-    where: { id: parseInt(params.id) },
+    where: { id: parseInt(id) },
     include: { options: true },
   });
 
