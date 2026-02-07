@@ -1,0 +1,76 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Lead {
+  id                String         @id @default(cuid())
+  name              String
+  email             String
+  phone             String
+  recipientName     String
+  recipientLocation String
+  relationshipType  String
+  createdAt         DateTime       @default(now())
+  updatedAt         DateTime       @updatedAt
+  responses         QuizResponse[]
+}
+
+model QuizQuestion {
+  id          Int          @id @default(autoincrement())
+  section     String
+  question    String
+  contextHint String
+  type        String       @default("choice")
+  maxSelect   Int          @default(1)
+  order       Int          @default(0)
+  createdAt   DateTime     @default(now())
+  updatedAt   DateTime     @updatedAt
+  answers     QuizAnswer[]
+  options     QuizOption[]
+}
+
+model QuizOption {
+  id         Int          @id @default(autoincrement())
+  questionId Int
+  label      String
+  styles     String
+  order      Int          @default(0)
+  createdAt  DateTime     @default(now())
+  updatedAt  DateTime     @updatedAt
+  question   QuizQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+}
+
+model QuizResponse {
+  id        String       @id @default(cuid())
+  leadId    String
+  results   String
+  createdAt DateTime     @default(now())
+  updatedAt DateTime     @updatedAt
+  answers   QuizAnswer[]
+  lead      Lead         @relation(fields: [leadId], references: [id], onDelete: Cascade)
+}
+
+model QuizAnswer {
+  id             Int          @id @default(autoincrement())
+  responseId     String
+  questionId     Int
+  selectedStyles String
+  freeText       String?
+  createdAt      DateTime     @default(now())
+  question       QuizQuestion @relation(fields: [questionId], references: [id])
+  response       QuizResponse @relation(fields: [responseId], references: [id], onDelete: Cascade)
+}
+
+model User {
+  id        String   @id @default(cuid())
+  email     String   @unique
+  password  String
+  name      String
+  role      String   @default("user")
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
