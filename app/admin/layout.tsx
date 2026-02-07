@@ -2,6 +2,8 @@ import Link from "next/link";
 import { LogoutButton } from "@/components/admin/logout-button";
 import { LayoutDashboard, Users, HelpCircle, Heart, Shield } from "lucide-react";
 
+export const dynamic = 'force-dynamic';
+
 export default function AdminLayout({
   children,
 }: {
