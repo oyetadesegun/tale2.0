@@ -27,7 +27,7 @@ export function Footer() {
               <li>
                 <a
                   href={`https://wa.me/2349017691065?text=${encodeURIComponent(
-                    "Hi, I'm interested in the DIY Gift Guide. My name is: ____"
+                    "Hi TALE. I’d love to create something unforgettable for my partner this Valentine with your DIY: Self-Curated Love Experience. My name is ....."
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -40,7 +40,7 @@ export function Footer() {
               <li>
                 <a
                   href={`https://wa.me/2349017691065?text=${encodeURIComponent(
-                    "Hi, I'm interested in the Done-With-You service. My name is: ____"
+                    "Hi TALE. I’d love your guidance in creating something unforgettable for my partner this Valentine with through your DWY: Guided Love Experience"
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -53,7 +53,7 @@ export function Footer() {
               <li>
                 <a
                   href={`https://wa.me/2349017691065?text=${encodeURIComponent(
-                    "Hi, I'm interested in the Done-For-You packages. My name is: ____"
+                    "Hi TALE. I’d love to have something unforgettable created for my partner this Valentine with through your DFY: Ready-Made Love Experience"
                   )}`}
                   target="_blank"
                   rel="noopener noreferrer"
@@ -102,7 +102,7 @@ export function Footer() {
             </h4>
             <div className="flex gap-3">
               <a
-                href="https://instagram.com/royale.variety.store"
+                href="https://instagram.com/royale.gifts.experiences"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-primary hover:text-primary-foreground"

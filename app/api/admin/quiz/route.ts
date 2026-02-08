@@ -19,8 +19,16 @@ export async function GET() {
 export async function POST(request: Request) {
   try {
     const body = await request.json();
-    const { question, section, order, type, maxSelect, contextHint, options } =
-      body;
+    const {
+      question,
+      section,
+      order,
+      type,
+      maxSelect,
+      isRequired,
+      contextHint,
+      options,
+    } = body;
 
     const newQuestion = await prisma.quizQuestion.create({
       data: {
@@ -28,7 +36,9 @@ export async function POST(request: Request) {
         section,
         order: parseInt(order),
         type,
+        type,
         maxSelect: parseInt(maxSelect),
+        isRequired,
         contextHint: JSON.stringify(contextHint),
         options: {
           create: options.map((opt: any, index: number) => ({
@@ -61,6 +71,7 @@ export async function PUT(request: Request) {
       order,
       type,
       maxSelect,
+      isRequired,
       contextHint,
       options,
     } = body;
@@ -82,7 +93,9 @@ export async function PUT(request: Request) {
           section,
           order: parseInt(order),
           type,
+          type,
           maxSelect: parseInt(maxSelect),
+          isRequired,
           contextHint: JSON.stringify(contextHint),
           options: {
             create: options.map((opt: any, index: number) => ({

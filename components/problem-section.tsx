@@ -53,7 +53,7 @@ export function ProblemSection() {
             </span>
           </h2>
           <p className="mx-auto mt-4 max-w-2xl text-lg leading-relaxed text-muted-foreground">
-            {"Every year, millions of people stress over finding the \"perfect\" gift. Sound familiar?"}
+            {"Every year, many people stress over finding the \"perfect\" gift because they keep seeing and browsing 1001 gift ideas. Does this sound familiar to you?"}
           </p>
         </div>
 
@@ -63,7 +63,7 @@ export function ProblemSection() {
           <div className="rounded-2xl border border-destructive/20 bg-destructive/5 p-6 md:p-8">
             <h3 className="mb-6 flex items-center gap-2 font-serif text-xl font-bold text-destructive">
               <Frown className="h-6 w-6" />
-              Before TALE
+              You before TALE
             </h3>
             <div className="flex flex-col gap-5">
               {problems.map((item) => (
@@ -86,7 +86,7 @@ export function ProblemSection() {
           <div className="rounded-2xl border border-primary/20 bg-primary/5 p-6 md:p-8">
             <h3 className="mb-6 flex items-center gap-2 font-serif text-xl font-bold text-primary">
               <Smile className="h-6 w-6" />
-              After TALE
+              You after TALE
             </h3>
             <div className="flex flex-col gap-5">
               {solutions.map((item) => (

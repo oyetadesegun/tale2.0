@@ -243,7 +243,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                 <>
                   <div>
                     <Label htmlFor="recipientName" className="text-sm font-medium text-foreground">
-                      {`${recipientLabel}'s Name`} <span className="text-destructive">*</span>
+                      {`What is your ${recipientLabel}'s Name?`} <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="recipientName"
@@ -262,7 +262,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
 
                   <div>
                     <Label htmlFor="recipientLocation" className="text-sm font-medium text-foreground">
-                      {`${recipientLabel}'s Location`} <span className="text-destructive">*</span>
+                      {`What is your ${recipientLabel}'s Location`} <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="recipientLocation"

@@ -10,6 +10,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Plus, Trash2, Save, X } from "lucide-react";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+import { Switch } from "@/components/ui/switch";
 
 interface Option {
   label: string;
@@ -38,6 +39,9 @@ export function QuestionForm({ initialData }: QuestionFormProps) {
     section: initialData?.section || "About Them",
     order: initialData?.order || 1,
     type: initialData?.type || "choice",
+    order: initialData?.order || 1,
+    type: initialData?.type || "choice",
+    isRequired: initialData?.isRequired || false,
     maxSelect: initialData?.maxSelect || 1,
     contextHint: initialData?.contextHint ? JSON.parse(initialData.contextHint) : {
       "Romantic partner": "",

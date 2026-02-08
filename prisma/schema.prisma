@@ -31,6 +31,7 @@ model QuizQuestion {
   updatedAt   DateTime     @updatedAt
   answers     QuizAnswer[]
   options     QuizOption[]
+  isRequired  Boolean      @default(false)
 }
 
 model QuizOption {
