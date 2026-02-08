@@ -143,7 +143,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
           </div>
 
           <p className="text-sm font-semibold text-primary">
-            {"This Valentine, don't overthink or waste your money. Just intentional love that actually lands."}
+            {"This Valentine, stop scrolling through endless gift ideas that will only keep you confused. Find the one thing that will make your partner melt."}
           </p>
         </div>
 

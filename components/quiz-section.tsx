@@ -1,9 +1,10 @@
-import { useState, useEffect } from "react";
-import { ArrowLeft, ArrowRight, Heart, Check, Lightbulb, Loader2 } from "lucide-react";
+'use client'
+import { useState } from "react";
+import { ArrowLeft, ArrowRight, Heart, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import type { LoveStyle, QuizAnswer, RelationshipType } from "@/lib/quiz-data";
-import { calculateResults } from "@/lib/quiz-data";
+import { quizQuestions } from "@/lib/quiz-data";
 
 interface QuizSectionProps {
   userName: string;
@@ -18,59 +19,25 @@ export function QuizSection({
   relationshipType,
   onComplete,
 }: QuizSectionProps) {
-  const [questions, setQuestions] = useState<any[]>([]);
   const [currentQuestion, setCurrentQuestion] = useState(0);
-  const [answers, setAnswers] = useState<any[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [submitting, setSubmitting] = useState(false);
+  const [answers, setAnswers] = useState<(QuizAnswer & { _selectedIndices?: number[] })[]>(
+    quizQuestions.map((q) => ({ questionId: q.id, selectedStyles: [], freeText: "", _selectedIndices: [] }))
+  );
 
-  useEffect(() => {
-    async function fetchQuestions() {
-      try {
-        const response = await fetch("/api/quiz/questions");
-        const data = await response.json();
-        setQuestions(data);
-        setAnswers(data.map((q: any) => ({ 
-          questionId: q.id, 
-          selectedStyles: [], 
-          freeText: "", 
-          _selectedIndices: [] 
-        })));
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching questions:", error);
-      }
-    }
-    fetchQuestions();
-  }, []);
-
-  if (loading || questions.length === 0) {
-    return (
-      <div className="flex min-h-screen items-center justify-center">
-        <Loader2 className="h-8 w-8 animate-spin text-primary" />
-      </div>
-    );
-  }
-
-  const question = questions[currentQuestion];
-  const progress = ((currentQuestion + 1) / questions.length) * 100;
-  const isLastQuestion = currentQuestion === questions.length - 1;
+  const question = quizQuestions[currentQuestion];
+  const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
+  const isLastQuestion = currentQuestion === quizQuestions.length - 1;
   const currentAnswer = answers[currentQuestion];
 
   // Section tracking
   const currentSection = question.section;
-  const sectionStart = questions.findIndex((q) => q.section === currentSection);
+  const sectionStart = quizQuestions.findIndex((q) => q.section === currentSection);
   const questionInSection = currentQuestion - sectionStart + 1;
-  const sectionTotal = questions.filter((q) => q.section === currentSection).length;
+  const sectionTotal = quizQuestions.filter((q) => q.section === currentSection).length;
 
-  // Personalize text: replace {name}, {them}, {their}, {they} placeholders
+  // Personalize text: replace {name} placeholder
   function personalize(text: string): string {
-    const isSelf = relationshipType === "Myself";
-    return text
-      .replace(/\{name\}/g, recipientName)
-      .replace(/\{them\}/g, isSelf ? "you" : "them")
-      .replace(/\{their\}/g, isSelf ? "your" : "their")
-      .replace(/\{they\}/g, isSelf ? "you" : "they");
+    return text.replace(/\{name\}/g, recipientName);
   }
 
   function handleToggleOption(optionIndex: number) {
@@ -120,25 +87,17 @@ export function QuizSection({
   }
 
   function canProceed(): boolean {
-    // If not required, we can always proceed
-    if (question.required === false) return true;
-
-    // For free text, check if text exists
+    // Strict validation: Required
     if (question.type === "freetext") {
-      return !!currentAnswer.freeText && currentAnswer.freeText.trim().length > 0;
+       return !!currentAnswer.freeText && currentAnswer.freeText.trim().length > 0;
     }
-
-    // For choice, check if selection exists
     return currentAnswer.selectedStyles.length > 0;
   }
 
-    async function handleNext() {
+  function handleNext() {
     if (!canProceed()) return;
     if (isLastQuestion) {
-      setSubmitting(true);
-      // Removed API call as per new flow, logic moved to parent or removed
       onComplete(answers);
-      setSubmitting(false);
     } else {
       setCurrentQuestion(currentQuestion + 1);
     }
@@ -151,7 +110,6 @@ export function QuizSection({
   }
 
   const personalizedQuestion = personalize(question.question);
-  const contextHint = personalize(question.contextHint[relationshipType]);
 
   return (
     <section className="min-h-screen bg-secondary/30 px-4 py-12 md:py-20">
@@ -161,7 +119,7 @@ export function QuizSection({
           <div className="mb-2 inline-flex items-center gap-2 rounded-full bg-primary/10 px-4 py-1 text-sm font-medium text-primary">
             <Heart className="h-4 w-4 fill-primary" />
             <span>
-              Question {currentQuestion + 1} of {questions.length}
+              Question {currentQuestion + 1} of {quizQuestions.length}
             </span>
           </div>
           <p className="text-sm text-muted-foreground">
@@ -193,14 +151,6 @@ export function QuizSection({
           style={{ animation: "scale-in 0.3s ease-out" }}
           key={currentQuestion}
         >
-          {/* Context hint — the imagination/scene-setter */}
-          <div className="mb-5 flex gap-3 rounded-xl border border-accent/20 bg-accent/5 p-4">
-            <Lightbulb className="mt-0.5 h-5 w-5 shrink-0 text-accent" />
-            <p className="text-sm leading-relaxed text-muted-foreground italic">
-              {contextHint}
-            </p>
-          </div>
-
           <h3 className="mb-2 font-serif text-xl font-bold leading-relaxed text-foreground md:text-2xl">
             {personalizedQuestion}
           </h3>
@@ -216,7 +166,7 @@ export function QuizSection({
 
           {question.type === "choice" ? (
             <div className="flex flex-col gap-3">
-              {question.options.map((option: any, index: number) => {
+              {question.options.map((option, index) => {
                 const selected = isOptionSelected(index);
                 return (
                   <button
@@ -285,21 +235,15 @@ export function QuizSection({
 
           <Button
             onClick={handleNext}
-            disabled={!canProceed() || submitting}
+            disabled={!canProceed()}
             className="gap-2 bg-primary text-primary-foreground hover:brightness-110"
           >
-            {submitting ? (
-              <Loader2 className="h-4 w-4 animate-spin" />
-            ) : isLastQuestion ? (
-              "See Results"
-            ) : (
-              "Next"
-            )}
-            {!submitting && (isLastQuestion ? (
+            {isLastQuestion ? "See Results" : "Next"}
+            {isLastQuestion ? (
               <Heart className="h-4 w-4" />
             ) : (
               <ArrowRight className="h-4 w-4" />
-            ))}
+            )}
           </Button>
         </div>
       </div>

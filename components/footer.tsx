@@ -34,7 +34,7 @@ export function Footer() {
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <Gift className="h-4 w-4" />
-                  DIY Gift Guide
+                  DIY: Self-Curated Love Experience
                 </a>
               </li>
               <li>
@@ -47,7 +47,7 @@ export function Footer() {
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <MessageCircle className="h-4 w-4" />
-                  Done-With-You
+                  DWY: Guided Love Experience
                 </a>
               </li>
               <li>
@@ -60,7 +60,7 @@ export function Footer() {
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <Package className="h-4 w-4" />
-                  Done-For-You
+                  DFY: Ready Made Love Experience
                 </a>
               </li>
             </ul>
