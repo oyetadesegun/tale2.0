@@ -225,7 +225,7 @@ export function ResultsSection({
               </p>
               <a
                 href={`https://wa.me/2349017691065?text=${encodeURIComponent(
-                  `Hi, I just finished the quiz. My love style is ${loveStyleDetails[styleScores[0].style].name}. I'm interested in the DIY Guide. My name is ${userName}.`
+                  `Hi TALE, my name is ${userName}. I just completed the quiz and found my partner’s top two love styles: ${loveStyleDetails[styleScores[0].style].name} and ${loveStyleDetails[styleScores[1].style].name}. I’d love to create something unforgettable with your DIY Love Experience.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -255,7 +255,7 @@ export function ResultsSection({
               </p>
               <a
                 href={`https://wa.me/2349017691065?text=${encodeURIComponent(
-                  `Hi, I just finished the quiz. My love style is ${loveStyleDetails[styleScores[0].style].name}. I'm interested in the Done-With-You service. My name is ${userName}.`
+                  `Hi TALE, my name is ${userName}. I just completed the quiz and found my partner’s top two love styles: ${loveStyleDetails[styleScores[0].style].name} and ${loveStyleDetails[styleScores[1].style].name}. I’d love your guidance to create something truly unforgettable for my partner this Valentine through your DWY: Guided Love Experience.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
@@ -282,7 +282,7 @@ export function ResultsSection({
               </p>
               <a
                 href={`https://wa.me/2349017691065?text=${encodeURIComponent(
-                  `Hi, I just finished the quiz. My love style is ${loveStyleDetails[styleScores[0].style].name}. I'm interested in the Done-For-You packages. My name is ${userName}.`
+                  `Hi TALE, my name is ${userName}. I just completed the quiz and found my partner’s top two love styles: ${loveStyleDetails[styleScores[0].style].name} and ${loveStyleDetails[styleScores[1].style].name}. I’d love to have something unforgettable created for my partner through your DFY: Ready-Made Love Experience.`
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
