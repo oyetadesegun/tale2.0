@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useCallback, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { FloatingHearts } from "@/components/floating-hearts";
 import { HeroSection } from "@/components/hero-section";
 import { ProblemSection } from "@/components/problem-section";
@@ -9,18 +9,10 @@ import { QuizSection } from "@/components/quiz-section";
 import { ResultsSection } from "@/components/results-section";
 import { Footer } from "@/components/footer";
 import { ExitPopup } from "@/components/exit-popup";
-// import type { LoveStyle, QuizAnswer, RelationshipType } from "@/lib/quiz-data";
-// import { calculateResults } from "@/lib/quiz-data";
+import { calculateResults } from "@/lib/quiz-data";
+import type { QuizAnswer, StyleScore, RelationshipType } from "@/lib/quiz-data";
 
 type AppState = "landing" | "quiz" | "results";
-type RelationshipType = "Romantic partner" | "Friend" | "Family member" | "Myself";
-type LoveStyle = "Words of Affirmation" | "Acts of Service" | "Receiving Gifts" | "Quality Time" | "Physical Touch";
-type QuizAnswer = {
-  question: string;
-  answer: string;
-  category: LoveStyle;
-  score: number;
-};
 
 interface LeadData {
   id?: string;
@@ -31,15 +23,11 @@ interface LeadData {
   recipientLocation: string;
   relationshipType: RelationshipType;
 }
-
 export default function Page() {
   const [appState, setAppState] = useState<AppState>("landing");
   const [leadData, setLeadData] = useState<LeadData | null>(null);
-  const [topStyles, setTopStyles] = useState<LoveStyle[]>([]);
+  const [styleScores, setStyleScores] = useState<StyleScore[]>([]);
   const quizRef = useRef<HTMLDivElement>(null);
-useEffect(()=>{
-  
-},[])
 
   const handleStartQuiz = useCallback((data: LeadData) => {
     setLeadData(data);
@@ -47,8 +35,9 @@ useEffect(()=>{
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
-  const handleQuizComplete = useCallback((answers: QuizAnswer[], results: LoveStyle[]) => {
-    setTopStyles(results);
+  const handleQuizComplete = useCallback((answers: QuizAnswer[]) => {
+    const results = calculateResults(answers);
+    setStyleScores(results);
     setAppState("results");
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
@@ -56,7 +45,7 @@ useEffect(()=>{
   const handleRestart = useCallback(() => {
     setAppState("landing");
     setLeadData(null);
-    setTopStyles([]);
+    setStyleScores([]);
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, []);
 
@@ -77,11 +66,9 @@ useEffect(()=>{
         </>
       )}
 
-      {appState === "quiz" && leadData  && (
-     
+      {appState === "quiz" && leadData && (
         <div ref={quizRef}>
           <QuizSection
-            leadId={leadData.id}
             userName={leadData.name}
             recipientName={leadData.recipientName}
             relationshipType={leadData.relationshipType}
@@ -94,7 +81,7 @@ useEffect(()=>{
         <ResultsSection
           userName={leadData.name}
           partnerName={leadData.recipientName}
-          topStyles={topStyles}
+          styleScores={styleScores}
           onRestart={handleRestart}
         />
       )}

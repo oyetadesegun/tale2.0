@@ -6,15 +6,13 @@ import type { LoveStyle, QuizAnswer, RelationshipType } from "@/lib/quiz-data";
 import { calculateResults } from "@/lib/quiz-data";
 
 interface QuizSectionProps {
-  leadId: string;
   userName: string;
   recipientName: string;
   relationshipType: RelationshipType;
-  onComplete: (answers: QuizAnswer[], results: LoveStyle[]) => void;
+  onComplete: (answers: QuizAnswer[]) => void;
 }
 
 export function QuizSection({
-  leadId,
   userName,
   recipientName,
   relationshipType,
@@ -134,28 +132,13 @@ export function QuizSection({
     return currentAnswer.selectedStyles.length > 0;
   }
 
-  async function handleNext() {
+    async function handleNext() {
     if (!canProceed()) return;
     if (isLastQuestion) {
       setSubmitting(true);
-      const results = calculateResults(answers);
-      
-      try {
-        await fetch("/api/quiz/responses", {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({
-            leadId,
-            responses: answers,
-            results: results,
-          }),
-        });
-      } catch (error) {
-        console.error("Error saving quiz response:", error);
-      } finally {
-        onComplete(answers, results);
-        setSubmitting(false);
-      }
+      // Removed API call as per new flow, logic moved to parent or removed
+      onComplete(answers);
+      setSubmitting(false);
     } else {
       setCurrentQuestion(currentQuestion + 1);
     }
