@@ -1,9 +1,8 @@
-'use client'
 import { useState } from "react";
 import { ArrowLeft, ArrowRight, Heart, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
-import type { LoveStyle, QuizAnswer, RelationshipType } from "@/lib/quiz-data";
+import type { LoveStyle, QuizAnswer, RelationshipType, QuizQuestion } from "@/lib/quiz-data";
 import { quizQuestions } from "@/lib/quiz-data";
 
 interface QuizSectionProps {
@@ -11,6 +10,7 @@ interface QuizSectionProps {
   recipientName: string;
   relationshipType: RelationshipType;
   onComplete: (answers: QuizAnswer[]) => void;
+  questions?: QuizQuestion[];
 }
 
 export function QuizSection({
@@ -18,22 +18,28 @@ export function QuizSection({
   recipientName,
   relationshipType,
   onComplete,
+  questions = quizQuestions,
 }: QuizSectionProps) {
   const [currentQuestion, setCurrentQuestion] = useState(0);
   const [answers, setAnswers] = useState<(QuizAnswer & { _selectedIndices?: number[] })[]>(
-    quizQuestions.map((q) => ({ questionId: q.id, selectedStyles: [], freeText: "", _selectedIndices: [] }))
+    questions.map((q) => ({ questionId: q.id, selectedStyles: [], freeText: "", _selectedIndices: [] }))
   );
 
-  const question = quizQuestions[currentQuestion];
-  const progress = ((currentQuestion + 1) / quizQuestions.length) * 100;
-  const isLastQuestion = currentQuestion === quizQuestions.length - 1;
-  const currentAnswer = answers[currentQuestion];
+  // Ensure we don't go out of bounds if questions change
+  const safeCurrentQuestion = Math.min(currentQuestion, questions.length - 1);
+  const question = questions[safeCurrentQuestion];
+  
+  if (!question) return null;
+
+  const progress = ((safeCurrentQuestion + 1) / questions.length) * 100;
+  const isLastQuestion = safeCurrentQuestion === questions.length - 1;
+  const currentAnswer = answers[safeCurrentQuestion];
 
   // Section tracking
   const currentSection = question.section;
-  const sectionStart = quizQuestions.findIndex((q) => q.section === currentSection);
-  const questionInSection = currentQuestion - sectionStart + 1;
-  const sectionTotal = quizQuestions.filter((q) => q.section === currentSection).length;
+  const sectionStart = questions.findIndex((q) => q.section === currentSection);
+  const questionInSection = safeCurrentQuestion - sectionStart + 1;
+  const sectionTotal = questions.filter((q) => q.section === currentSection).length;
 
   // Personalize text: replace {name} placeholder
   function personalize(text: string): string {
@@ -45,7 +51,7 @@ export function QuizSection({
     const newAnswers = [...answers];
 
     if (question.maxSelect === 1) {
-      newAnswers[currentQuestion] = {
+      newAnswers[safeCurrentQuestion] = {
         ...currentAnswer,
         selectedStyles: option.styles as LoveStyle[],
         _selectedIndices: [optionIndex],
@@ -56,7 +62,7 @@ export function QuizSection({
       if (selectedIndices.includes(optionIndex)) {
         const newIndices = selectedIndices.filter((i) => i !== optionIndex);
         const newStyles = newIndices.flatMap((i) => question.options[i].styles);
-        newAnswers[currentQuestion] = {
+        newAnswers[safeCurrentQuestion] = {
           ...currentAnswer,
           selectedStyles: newStyles as LoveStyle[],
           _selectedIndices: newIndices,
@@ -64,7 +70,7 @@ export function QuizSection({
       } else if (selectedIndices.length < question.maxSelect) {
         const newIndices = [...selectedIndices, optionIndex];
         const newStyles = newIndices.flatMap((i) => question.options[i].styles);
-        newAnswers[currentQuestion] = {
+        newAnswers[safeCurrentQuestion] = {
           ...currentAnswer,
           selectedStyles: newStyles as LoveStyle[],
           _selectedIndices: newIndices,
@@ -77,7 +83,7 @@ export function QuizSection({
 
   function handleFreeTextChange(text: string) {
     const newAnswers = [...answers];
-    newAnswers[currentQuestion] = { ...currentAnswer, freeText: text };
+    newAnswers[safeCurrentQuestion] = { ...currentAnswer, freeText: text };
     setAnswers(newAnswers);
   }
 
@@ -87,6 +93,9 @@ export function QuizSection({
   }
 
   function canProceed(): boolean {
+    // If not required, always allow proceeding
+    if (question.isRequired === false) return true;
+
     // Strict validation: Required
     if (question.type === "freetext") {
        return !!currentAnswer.freeText && currentAnswer.freeText.trim().length > 0;
@@ -99,13 +108,13 @@ export function QuizSection({
     if (isLastQuestion) {
       onComplete(answers);
     } else {
-      setCurrentQuestion(currentQuestion + 1);
+      setCurrentQuestion(safeCurrentQuestion + 1);
     }
   }
 
   function handlePrevious() {
-    if (currentQuestion > 0) {
-      setCurrentQuestion(currentQuestion - 1);
+    if (safeCurrentQuestion > 0) {
+      setCurrentQuestion(safeCurrentQuestion - 1);
     }
   }
 

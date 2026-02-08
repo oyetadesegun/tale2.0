@@ -39,8 +39,6 @@ export function QuestionForm({ initialData }: QuestionFormProps) {
     section: initialData?.section || "About Them",
     order: initialData?.order || 1,
     type: initialData?.type || "choice",
-    order: initialData?.order || 1,
-    type: initialData?.type || "choice",
     isRequired: initialData?.isRequired || false,
     maxSelect: initialData?.maxSelect || 1,
     contextHint: initialData?.contextHint ? JSON.parse(initialData.contextHint) : {
@@ -199,6 +197,15 @@ export function QuestionForm({ initialData }: QuestionFormProps) {
                   required
                 />
               </div>
+            </div>
+
+            <div className="flex items-center space-x-2 pt-2">
+              <Switch
+                id="isRequired"
+                checked={formData.isRequired}
+                onCheckedChange={(checked) => setFormData({ ...formData, isRequired: checked })}
+              />
+              <Label htmlFor="isRequired">Required Question</Label>
             </div>
           </CardContent>
         </Card>
