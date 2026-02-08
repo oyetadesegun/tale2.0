@@ -165,7 +165,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
             <form onSubmit={handleSubmit} className="flex flex-col gap-4">
               <div>
                 <Label htmlFor="name" className="text-sm font-medium text-foreground">
-                  Your Name
+                  Your Name <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="name"
@@ -173,13 +173,14 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                   value={formData.name}
                   onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                   className="mt-1 bg-background"
+                  required
                 />
                 {errors.name && <p className="mt-1 text-xs text-destructive">{errors.name}</p>}
               </div>
 
               <div>
                 <Label htmlFor="email" className="text-sm font-medium text-foreground">
-                  Email Address
+                  Email Address <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="email"
@@ -188,21 +189,23 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                   value={formData.email}
                   onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                   className="mt-1 bg-background"
+                  required
                 />
                 {errors.email && <p className="mt-1 text-xs text-destructive">{errors.email}</p>}
               </div>
 
               <div>
                 <Label htmlFor="phone" className="text-sm font-medium text-foreground">
-                  Phone Number
+                  Phone Number <span className="text-destructive">*</span>
                 </Label>
                 <Input
                   id="phone"
                   type="tel"
-                  placeholder="+234 800 000 0000"
+                  placeholder="+234 901 769 1065"
                   value={formData.phone}
                   onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
                   className="mt-1 bg-background"
+                  required
                 />
                 {errors.phone && <p className="mt-1 text-xs text-destructive">{errors.phone}</p>}
               </div>
@@ -210,7 +213,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
               {/* Relationship type dropdown */}
               <div>
                 <Label htmlFor="relationshipType" className="text-sm font-medium text-foreground">
-                  Who are you gifting?
+                  Who are you gifting? <span className="text-destructive">*</span>
                 </Label>
                 <div className="relative mt-1">
                   <select
@@ -223,6 +226,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                       })
                     }
                     className="h-10 w-full appearance-none rounded-md border border-input bg-background px-3 py-2 pr-10 text-sm text-foreground ring-offset-background focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring focus-visible:ring-offset-2"
+                    required
                   >
                     {relationshipOptions.map((option) => (
                       <option key={option} value={option}>
@@ -239,7 +243,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                 <>
                   <div>
                     <Label htmlFor="recipientName" className="text-sm font-medium text-foreground">
-                      {`${recipientLabel}'s Name`}
+                      {`${recipientLabel}'s Name`} <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="recipientName"
@@ -249,6 +253,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                         setFormData({ ...formData, recipientName: e.target.value })
                       }
                       className="mt-1 bg-background"
+                      required
                     />
                     {errors.recipientName && (
                       <p className="mt-1 text-xs text-destructive">{errors.recipientName}</p>
@@ -257,7 +262,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
 
                   <div>
                     <Label htmlFor="recipientLocation" className="text-sm font-medium text-foreground">
-                      {`${recipientLabel}'s Location`}
+                      {`${recipientLabel}'s Location`} <span className="text-destructive">*</span>
                     </Label>
                     <Input
                       id="recipientLocation"
@@ -267,6 +272,7 @@ export function HeroSection({ onStartQuiz }: HeroSectionProps) {
                         setFormData({ ...formData, recipientLocation: e.target.value })
                       }
                       className="mt-1 bg-background"
+                      required
                     />
                     {errors.recipientLocation && (
                       <p className="mt-1 text-xs text-destructive">{errors.recipientLocation}</p>

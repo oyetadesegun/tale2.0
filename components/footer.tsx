@@ -26,7 +26,11 @@ export function Footer() {
             <ul className="flex flex-col gap-2">
               <li>
                 <a
-                  href="#"
+                  href={`https://wa.me/2349017691065?text=${encodeURIComponent(
+                    "Hi, I'm interested in the DIY Gift Guide. My name is: ____"
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <Gift className="h-4 w-4" />
@@ -35,7 +39,11 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href={`https://wa.me/2349017691065?text=${encodeURIComponent(
+                    "Hi, I'm interested in the Done-With-You service. My name is: ____"
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <MessageCircle className="h-4 w-4" />
@@ -44,7 +52,11 @@ export function Footer() {
               </li>
               <li>
                 <a
-                  href="#"
+                  href={`https://wa.me/2349017691065?text=${encodeURIComponent(
+                    "Hi, I'm interested in the Done-For-You packages. My name is: ____"
+                  )}`}
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <Package className="h-4 w-4" />
@@ -62,20 +74,22 @@ export function Footer() {
             <ul className="flex flex-col gap-2">
               <li>
                 <a
-                  href="mailto:hello@tale.love"
+                  href="mailto:royalevarietystore@gmail.com"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
                   <Mail className="h-4 w-4" />
-                  hello@tale.love
+                  royalevarietystore@gmail.com
                 </a>
               </li>
               <li>
                 <a
-                  href="tel:+2348000000000"
+                  href="https://wa.me/2349017691065"
+                  target="_blank"
+                  rel="noopener noreferrer"
                   className="flex items-center gap-2 text-sm text-muted-foreground transition-colors hover:text-primary"
                 >
-                  <Phone className="h-4 w-4" />
-                  +234 800 000 0000
+                  <MessageCircle className="h-4 w-4" />
+                  +234 901 769 1065
                 </a>
               </li>
             </ul>
@@ -88,14 +102,18 @@ export function Footer() {
             </h4>
             <div className="flex gap-3">
               <a
-                href="#"
+                href="https://instagram.com/royale.variety.store"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
-                aria-label="Instagram"
+                aria-label="ram"
               >
                 <Instagram className="h-5 w-5" />
               </a>
               <a
-                href="#"
+                href="https://twitter.com/royalevarietystore"
+                target="_blank"
+                rel="noopener noreferrer"
                 className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-secondary-foreground transition-colors hover:bg-primary hover:text-primary-foreground"
                 aria-label="Twitter"
               >

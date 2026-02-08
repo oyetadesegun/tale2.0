@@ -155,10 +155,19 @@ export function ResultsSection({
               <p className="mb-4 flex-1 text-sm text-muted-foreground">
                 Get a free personalized guide to craft the gift yourself
               </p>
-              <Button variant="outline" className="w-full gap-2 bg-transparent">
-                <Gift className="h-4 w-4" />
-                Get Free Guide
-              </Button>
+              <a
+                href={`https://wa.me/2349017691065?text=${encodeURIComponent(
+                  `Hi, I just finished the quiz. My love style is ${loveStyleDetails[topStyles[0]].name}. I'm interested in the DIY Guide. My name is ${userName}.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
+                <Button variant="outline" className="w-full gap-2 bg-transparent">
+                  <Gift className="h-4 w-4" />
+                  Get Free Guide
+                </Button>
+              </a>
             </div>
 
             {/* DWY */}
@@ -175,10 +184,19 @@ export function ResultsSection({
               <p className="mb-4 flex-1 text-sm text-muted-foreground">
                 Chat with our gift experts on WhatsApp for guided help
               </p>
-              <Button className="w-full gap-2 bg-primary text-primary-foreground hover:brightness-110">
-                <MessageCircle className="h-4 w-4" />
-                Chat on WhatsApp
-              </Button>
+              <a
+                href={`https://wa.me/2349017691065?text=${encodeURIComponent(
+                  `Hi, I just finished the quiz. My love style is ${loveStyleDetails[topStyles[0]].name}. I'm interested in the Done-With-You service. My name is ${userName}.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
+                <Button className="w-full gap-2 bg-primary text-primary-foreground hover:brightness-110">
+                  <MessageCircle className="h-4 w-4" />
+                  Chat on WhatsApp
+                </Button>
+              </a>
             </div>
 
             {/* DFY */}
@@ -192,10 +210,19 @@ export function ResultsSection({
               <p className="mb-4 flex-1 text-sm text-muted-foreground">
                 We handle everything — premium curated gift packages
               </p>
-              <Button variant="outline" className="w-full gap-2 border-accent text-accent-foreground hover:bg-accent/10 bg-transparent">
-                <Package className="h-4 w-4" />
-                View Packages
-              </Button>
+              <a
+                href={`https://wa.me/2349017691065?text=${encodeURIComponent(
+                  `Hi, I just finished the quiz. My love style is ${loveStyleDetails[topStyles[0]].name}. I'm interested in the Done-For-You packages. My name is ${userName}.`
+                )}`}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="w-full"
+              >
+                <Button variant="outline" className="w-full gap-2 border-accent text-accent-foreground hover:bg-accent/10 bg-transparent">
+                  <Package className="h-4 w-4" />
+                  View Packages
+                </Button>
+              </a>
             </div>
           </div>
         </div>

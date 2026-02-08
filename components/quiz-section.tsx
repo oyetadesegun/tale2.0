@@ -122,7 +122,15 @@ export function QuizSection({
   }
 
   function canProceed(): boolean {
-    if (question.type === "freetext") return true;
+    // If not required, we can always proceed
+    if (question.required === false) return true;
+
+    // For free text, check if text exists
+    if (question.type === "freetext") {
+      return !!currentAnswer.freeText && currentAnswer.freeText.trim().length > 0;
+    }
+
+    // For choice, check if selection exists
     return currentAnswer.selectedStyles.length > 0;
   }
 
